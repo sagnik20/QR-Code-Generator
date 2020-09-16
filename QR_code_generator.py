@@ -42,7 +42,18 @@ def save():
     except:
         messagebox.showinfo("Generate the QR code first!")
 
-
+#function to save the generated code locally in svg format
+def svg():
+    dir = os.getcwd() + "\\QR Codes"
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+    try:
+        if len(name.get())!=0:
+            qr.png(os.path.join(dir,name.get()+".svg"),scale=8)
+        else:
+            messagebox.showinfo("Please enter a File Name")
+    except:
+        messagebox.showinfo("Generate the QR code first!")
 #designing the GUI
 Sub = Label(window,text="Enter subject", font=("Helvetica", 12))
 Sub.grid(row =0,column =0,sticky=N+S+W+E)
@@ -70,7 +81,8 @@ subLabel.grid(row =3,column =1,sticky=N+S+W+E)
 saveB = Button(window,text="Save as PNG",width=15,command = save, font=("Helvetica", 12))
 saveB.grid(row =1,column =3,sticky=N+S+W+E)
 
-
+saveC = Button(window,text="Save as SVG",width=15,command = svg, font=("Helvetica", 12))
+saveC.grid(row =2,column =3,sticky=N+W+E)
 #making the GUI resposnsive
 Rows = 3
 Columns = 3
