@@ -1,24 +1,60 @@
-# QR-Code-Generator
+# QR-Code-Generator 
+![Contributors](https://img.shields.io/github/contributors/sagnik20/QR-Code-Generator)
+![Forks](https://img.shields.io/github/forks/sagnik20/QR-Code-Generator?style=social)
+![Views](https://img.shields.io/youtube/views/ErzISUgrELk?style=social)
 
-###### I have created a **Tkinter GUI** to generate _QR code_. Also from the GUI we can save the generated QR code in local machine. We can convert any text, url or number to a QR code. Also we can save the file with desired name as **png file**.
+QR code Generator with TKinter GUI written in Python. Using it one can **convert any text, url or number to QR Code**. 
+The generated ***QR code can be saved on the local machine as PNG file***.
+
+
+## Installation
+
  
  
 ##### To run the above code you might require to install pyqrcode module. Install using the command below : 
- ```python
+##### 1 Install pyqrcode 
+```python
  pip install pyqrcode
  ```
+
+##### 2 Fork the repository.
+
+##### 3 Clone the repository.
+```
+git clone https://github.com/<your-username>/QR-Code-Generator
+```
+##### 4 cd into cloned directory.
+```
+cd ./QR-Code-Generator/
+```
+
+##### 5 Run the script.
+ ```python
+ python3 QR_code_generator.py
+ ```
  
- 
-##### I have also created a video while writing the code. Watch it to know explanations of each lines written here. 
- 
- Link :
- >[Learn Overflow](https://youtu.be/ErzISUgrELk)
+
+## Usage
+
  
  
  
 ### The GUI looks similar as below :
  
 ![](images/QR.png)
+
+
+## Contributing
+
+If you are willing to contribute to this project, please check out 
+
+#### [CODE OF CONDUCT](CODE_OF_CONDUCT.md) 
+#### [CONTRIBUTING](CONTRIBUTING.md)
+
+##### There was also a video created while writing the code. Watch it to know explanations of each lines written here. 
+ 
+ Link :
+ >[Learn Overflow](https://youtu.be/ErzISUgrELk)
 
 
 ### :heart: Found this project useful?
