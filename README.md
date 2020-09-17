@@ -7,34 +7,34 @@ QR code Generator with TKinter GUI written in Python. Using it one can **convert
 The generated ***QR code can be saved on the local machine as PNG file***.
 
 
-##Installation
+## Installation
 
  
  
 ##### To run the above code you might require to install pyqrcode module. Install using the command below : 
-#####1 Install pyqrcode 
+##### 1 Install pyqrcode 
 ```python
  pip install pyqrcode
  ```
 
-#####2 Fork the repository.
+##### 2 Fork the repository.
 
-#####3 Clone the repository.
+##### 3 Clone the repository.
 ```
 git clone https://github.com/<your-username>/QR-Code-Generator
 ```
-#####4 cd into cloned directory.
+##### 4 cd into cloned directory.
 ```
 cd ./QR-Code-Generator/
 ```
 
-#####5 Run the script.
+##### 5 Run the script.
  ```python
  python3 QR_code_generator.py
  ```
  
 
-##Usage
+## Usage
 
  
  
@@ -48,8 +48,8 @@ cd ./QR-Code-Generator/
 
 If you are willing to contribute to this project, please check out 
 
-####[CODE OF CONDUCT](CODE_OF_CONDUCT.md) 
-####[CONTRIBUTING](CONTRIBUTING.md)
+#### [CODE OF CONDUCT](CODE_OF_CONDUCT.md) 
+#### [CONTRIBUTING](CONTRIBUTING.md)
 
 ##### There was also a video created while writing the code. Watch it to know explanations of each lines written here. 
  
