@@ -1,10 +1,11 @@
 from tkinter import *
 from tkinter import messagebox
+from tkinter.filedialog import askopenfilename
 import os
-import pyqrcode
+import shutil
 import barcode
 from barcode.writer import ImageWriter
-
+from MyQR import myqr
 
 
 s=0
@@ -19,15 +20,18 @@ def setsize(a):
     s=a
     messagebox.showinfo("","Select format")
     
+def open_file(): 
+    Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+    file = askopenfilename() # show an "Open" dialog box and return the path to the selected file
+    return file
 
 #function generate the qr code
 def generate():
     if len(Subject.get())!=0 and Subject.get() != "Enter subject here":
-        global qr,photo
-        qr = pyqrcode.create(Subject.get())
-        photo = BitmapImage(data = qr.xbm(scale=8))
+        global qr, photo, filename, save_dir
+        filename = open_file()
+        version, level, qr = myqr.run( Subject.get(), version=1, level='H', picture=filename, colorized=True, contrast=1.0, brightness=1.0, save_name=Subject.get()+".png", save_dir=os.path.join(os.getcwd(), "src"))
     else:
-
         messagebox.showinfo("","Please Enter some Subject")
     try:
         showcode()
@@ -38,10 +42,10 @@ def generate():
 def bargenerate():
     if len(Subject.get())!=0 and Subject.get() != "Enter subject here":
         global brcode, fpath,ogpath
-        brcode=barcode.get("code128", Subject.get(), writer=ImageWriter() )
-        brcodesvg=barcode.get("code128", Subject.get() )
+        brcode=barcode.get("code128", Subject.get(), writer=ImageWriter())
+        brcodesvg=barcode.get("code128", Subject.get())
         ogpath=os.getcwd()
-        dummy = os.getcwd()+"\\images"
+        dummy = "src"
         if not os.path.exists(dummy):
             os.makedirs(dummy)
         fpath=os.path.join(dummy,Subject.get())
@@ -58,7 +62,7 @@ def bargenerate():
 def brsave():
     try:
         if len(name.get())!=0 and name.get() != "Enter filename here":
-            dir = os.getcwd() + "\\bar Codes"
+            dir = "Bar_Codes"
             if not os.path.exists(dir):
                 os.makedirs(dir)
             spath=os.path.join(dir,name.get())
@@ -74,13 +78,15 @@ def brsave():
         
 #function to show the qr code
 def showcode():
+    global photo
+    photo = PhotoImage(file = os.path.join(os.getcwd(), "src") + "/" + Subject.get()+".png")
     imageLabel.config(image = photo)
     subLabel.config(text="QR of " + Subject.get())
 
 #func to show barcode
 def showbrcode():
     global photo1
-    photo1= PhotoImage(file= fpath +".png")
+    photo1 = PhotoImage(file= fpath +".png")
     imageLabel.config(image = photo1)
     subLabel.config(text="")
 
@@ -88,7 +94,7 @@ def showbrcode():
 
 #function to save the generated code locally in png format
 def save():
-    dir = os.getcwd() + "\\QR Codes"
+    dir = "QR_Codes"
     if not os.path.exists(dir):
         os.makedirs(dir)
     try:
@@ -96,7 +102,8 @@ def save():
             if s == 0:
                 messagebox.showinfo("alert", "Select size first")
             else:
-                qr.png(os.path.join(dir,name.get()+".png"),scale=s)
+                version, level, qr = myqr.run( Subject.get(), version=1, level='H', picture=filename, colorized=True, contrast=1.0, brightness=1.0, save_name=Subject.get()+".png", save_dir=os.path.join(os.getcwd(), "QR_Codes"))
+                os.remove(os.path.join("src",Subject.get())+".png")
                 messagebox.showinfo("","Saved")
         else:
             messagebox.showinfo("","Please enter a File Name")
@@ -107,20 +114,14 @@ def save():
 
 #function to save the generated code locally in svg format
 def svg():
-    dir = os.getcwd() + "\\QR Codes"
+    dir = "QR_Codes"
     if not os.path.exists(dir):
         os.makedirs(dir)
-    try:
-        if len(name.get())!=0 and name.get() != "Enter filename here":
-            if s == 0:
-                messagebox.showinfo("alert", "select size first")
-            else:
-                qr.png(os.path.join(dir,name.get()+".svg"),scale=s)
-                messagebox.showinfo("saved")
-        else: 
-            messagebox.showinfo("","Please enter a File Name")
-    except:
-        messagebox.showinfo("","Generate the QR code first!")
+    if not os.path.exists('src/'+Subject.get()+'.png'):
+    	version, level, qr = myqr.run( Subject.get(), version=1, level='H', picture=filename, colorized=True, contrast=1.0, brightness=1.0, save_name=Subject.get()+".png", save_dir=os.path.join(os.getcwd(), "src"))
+    shutil.copyfile('src/'+Subject.get()+'.png', 'QR_Codes/'+Subject.get()+'.svg')
+    os.remove(os.path.join("src",Subject.get())+".png")
+    messagebox.showinfo("","Saved")
 
 #dummy func
 def dummy():
