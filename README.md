@@ -41,7 +41,7 @@ cd ./QR-Code-Generator/
  
 ### The GUI looks similar as below :
  
-![](images/QR.png)
+![](src/QR.png)
 
 
 ## Contributing
