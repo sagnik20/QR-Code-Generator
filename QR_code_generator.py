@@ -6,7 +6,8 @@ import shutil
 import barcode
 from barcode.writer import ImageWriter
 from MyQR import myqr
-
+import csv
+from datetime import datetime
 
 s=0
 #Creating the base window for the GUI
@@ -25,12 +26,32 @@ def open_file():
     file = askopenfilename() # show an "Open" dialog box and return the path to the selected file
     return file
 
+#fucn to store data in csv files
+def storedata():
+    if not os.path.isfile(os.getcwd() + "\\QrCode and Barcode Datas.csv"):
+            with open("QrCode and Barcode Datas.csv","w",newline="") as codes:
+                fields=["Subject","Type","Timestamp"]
+                writer=csv.DictWriter(codes,fieldnames =fields)
+                writer.writeheader()
+    with open("QrCode and Barcode Datas.csv","a", newline="") as codes:
+        writer=csv.writer(codes)
+        if type1==1:
+            writer.writerow([Subject.get(),"Qrcode",timestampStr1])
+        elif type1==2:
+            writer.writerow([Subject.get(),"Barcode",timestampStr2])
+
+
+
 #function generate the qr code
 def generate():
     if len(Subject.get())!=0 and Subject.get() != "Enter subject here":
-        global qr, photo, filename, save_dir
+        global qr, photo, filename, save_dir, timestampStr1,type1
         filename = open_file()
         version, level, qr = myqr.run( Subject.get(), version=1, level='H', picture=filename, colorized=True, contrast=1.0, brightness=1.0, save_name=Subject.get()+".png", save_dir=os.path.join(os.getcwd(), "src"))
+        dateTimeObj = datetime.now()
+        timestampStr1 = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+        type1 = 1
+        storedata()
     else:
         messagebox.showinfo("","Please Enter some Subject")
     try:
@@ -41,15 +62,18 @@ def generate():
 #func to generate Barcode
 def bargenerate():
     if len(Subject.get())!=0 and Subject.get() != "Enter subject here":
-        global brcode, fpath,ogpath
-        brcode=barcode.get("code128", Subject.get(), writer=ImageWriter())
-        brcodesvg=barcode.get("code128", Subject.get())
-        ogpath=os.getcwd()
-        dummy = "src"
+        global brcode, fpath, type1,timestampStr2
+        brcode=barcode.get("code128", Subject.get(), writer=ImageWriter() )
+        brcodesvg=barcode.get("code128", Subject.get() )
+        dummy = os.getcwd()+"\\images"
         if not os.path.exists(dummy):
             os.makedirs(dummy)
         fpath=os.path.join(dummy,Subject.get())
         brcode.save(fpath)
+        dateTimeObj = datetime.now()
+        timestampStr2 = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+        type1 = 2
+        storedata()
     else:
         messagebox.showinfo("","Please Enter some Subject")
     try:
