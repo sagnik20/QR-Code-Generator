@@ -14,6 +14,7 @@ s=0
 window = Tk()
 window.resizable(width = False, height = False)
 window.title("QR and Bar Code Generator")
+window.iconbitmap("icon.ico")
 
 #func to set size
 def setsize(a):
