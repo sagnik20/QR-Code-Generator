@@ -45,42 +45,42 @@ def storedata():
 
 #function generate the qr code
 def generate():
-    if len(Subject.get())!=0 and Subject.get() != "Enter subject here":
-        global qr, photo, filename, save_dir, timestampStr1,type1
-        filename = open_file()
-        version, level, qr = myqr.run( Subject.get(), version=1, level='H', picture=filename, colorized=True, contrast=1.0, brightness=1.0, save_name=Subject.get()+".png", save_dir=os.path.join(os.getcwd(), "src"))
-        dateTimeObj = datetime.now()
-        timestampStr1 = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
-        type1 = 1
-        storedata()
+    if len(name.get())!=0 and name.get() != "Enter filename here" and len(Subject.get())!=0 and Subject.get() != "Enter subject here":
+        if '/' not in name.get():
+            global qr, photo, filename, save_dir, timestampStr1,type1
+            filename = open_file()
+            version, level, qr = myqr.run( Subject.get(), version=1, level='H', picture=filename, colorized=True, contrast=1.0, brightness=1.0, save_name=name.get()+".png", save_dir=os.path.join(os.getcwd(), "src"))
+            dateTimeObj = datetime.now()
+            timestampStr1 = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+            type1 = 1
+            storedata()
+            try: showcode()
+            except: pass
+        else: messagebox.showinfo("","filename can't contains '/'")
     else:
-        messagebox.showinfo("","Please Enter some Subject")
-    try:
-        showcode()
-    except:
-        pass
+        messagebox.showinfo("","Please Enter some filename or subject")
 
 #func to generate Barcode
 def bargenerate():
-    if len(Subject.get())!=0 and Subject.get() != "Enter subject here":
-        global brcode, fpath, type1,timestampStr2
-        brcode=barcode.get("code128", Subject.get(), writer=ImageWriter() )
-        brcodesvg=barcode.get("code128", Subject.get() )
-        dummy = os.getcwd()+"\\images"
-        if not os.path.exists(dummy):
-            os.makedirs(dummy)
-        fpath=os.path.join(dummy,Subject.get())
-        brcode.save(fpath)
-        dateTimeObj = datetime.now()
-        timestampStr2 = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
-        type1 = 2
-        storedata()
+    if len(name.get())!=0 and name.get() != "Enter filename here" and len(Subject.get())!=0 and Subject.get() != "Enter subject here":
+        if '/' not in name.get():
+            global brcode, fpath, type1,timestampStr2
+            brcode=barcode.get("code128", Subject.get(), writer=ImageWriter() )
+            brcodesvg=barcode.get("code128", Subject.get() )
+            dummy = os.getcwd()+"\\images"
+            if not os.path.exists(dummy):
+                os.makedirs(dummy)
+            fpath=os.path.join(dummy,name.get())
+            brcode.save(fpath)
+            dateTimeObj = datetime.now()
+            timestampStr2 = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+            type1 = 2
+            storedata()
+            try: showbrcode()
+            except: pass
+        else: messagebox.showinfo("","filename can't contains '/'")
     else:
-        messagebox.showinfo("","Please Enter some Subject")
-    try:
-        showbrcode()
-    except:
-        pass
+        messagebox.showinfo("","Please Enter some filename or subject")
 
 
 #func to save barcode in png format
@@ -104,7 +104,7 @@ def brsave():
 #function to show the qr code
 def showcode():
     global photo
-    photo = PhotoImage(file = os.path.join(os.getcwd(), "src") + "/" + Subject.get()+".png")
+    photo = PhotoImage(file = os.path.join(os.getcwd(), "src") + "/" + name.get()+".png")
     imageLabel.config(image = photo)
     subLabel.config(text="QR of " + Subject.get())
 
@@ -127,8 +127,8 @@ def save():
             if s == 0:
                 messagebox.showinfo("alert", "Select size first")
             else:
-                version, level, qr = myqr.run( Subject.get(), version=1, level='H', picture=filename, colorized=True, contrast=1.0, brightness=1.0, save_name=Subject.get()+".png", save_dir=os.path.join(os.getcwd(), "QR_Codes"))
-                os.remove(os.path.join("src",Subject.get())+".png")
+                version, level, qr = myqr.run( Subject.get(), version=1, level='H', picture=filename, colorized=True, contrast=1.0, brightness=1.0, save_name=name.get()+".png", save_dir=os.path.join(os.getcwd(), "QR_Codes"))
+                os.remove(os.path.join("src",name.get())+".png")
                 messagebox.showinfo("","Saved")
         else:
             messagebox.showinfo("","Please enter a File Name")
